@@ -1,0 +1,215 @@
+/* Общие стили */
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Fredoka', sans-serif;
+  background: linear-gradient(135deg, #000000, #ffd700);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffd700;
+  user-select: none;
+}
+
+/* Контейнер авторизации */
+#auth-container {
+  background: rgba(0, 0, 0, 0.75);
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  width: 360px;
+  text-align: center;
+  color: #ffd700;
+}
+
+/* Вкладки */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+  gap: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px 0;
+  background: #222;
+  color: #ffd700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  transition: background 0.3s;
+  user-select: none;
+}
+
+.tab-btn.active {
+  background: #ffd700;
+  color: #000;
+  box-shadow: 0 0 12px #ffd700;
+}
+
+.tab-btn:hover:not(.active) {
+  background: #333;
+}
+
+/* Экраны входа/регистрации */
+.auth-screen {
+  display: none;
+  flex-direction: column;
+}
+
+.auth-screen.active {
+  display: flex;
+}
+
+/* Поля ввода */
+.auth-screen input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  background: #fff;
+  color: #000;
+  outline: none;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+.auth-screen input:focus {
+  border: 2px solid #ffd700;
+}
+
+/* Кнопки */
+.auth-screen button {
+  background: #ffd700;
+  border: none;
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 12px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+  user-select: none;
+}
+
+.auth-screen button:hover {
+  background: #fff066;
+  transform: scale(1.05);
+}
+
+/* Ошибки */
+.error-message {
+  color: #ff4444;
+  font-size: 14px;
+  min-height: 18px;
+  margin-top: 5px;
+}
+
+/* Игровой экран */
+#game-screen {
+  display: none;
+  width: 700px;
+  height: 500px;
+  background: rgba(0,0,0,0.75);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+  color: #ffd700;
+  font-family: 'Fredoka', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-area h1 {
+  margin-bottom: 25px;
+  font-size: 36px;
+  text-shadow: 0 0 8px #ffd700;
+}
+
+.click-button {
+  background: #ffd700;
+  border: none;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ffd700;
+  transition: transform 0.15s ease-in-out, box-shadow 0.3s;
+  margin-bottom: 25px;
+  user-select: none;
+}
+
+.click-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px #ffea00;
+}
+
+.currency {
+  font-size: 24px;
+  margin: 6px 0;
+  text-shadow: 0 0 6px #ffd700;
+}
+
+.sidebar {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  background: #222;
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 0 25px #ffd700;
+}
+
+.sidebar h2 {
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  text-shadow: 0 0 6px #ffd700;
+}
+
+.menu-link {
+  display: block;
+  color: #ffd700;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ffd70044;
+  cursor: pointer;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.menu-link:hover {
+  color: #fff;
+}
+
+#delete-account-btn {
+  margin-top: auto;
+  padding: 12px 0;
+  background: #ff4444;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+}

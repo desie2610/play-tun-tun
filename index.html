@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Тун Тун Кликер</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Контейнер входа и регистрации -->
+  <div id="auth-container">
+    <div class="tabs">
+      <button class="tab-btn active" id="login-tab-btn">Вход</button>
+      <button class="tab-btn" id="register-tab-btn">Регистрация</button>
+    </div>
+
+    <!-- Вход -->
+    <div id="login-screen" class="auth-screen active">
+      <h1>Вход в Тун Тун Кликер</h1>
+      <input type="text" id="login-username" placeholder="Ник" autocomplete="off" />
+      <input type="password" id="login-password" placeholder="Пароль" autocomplete="off" />
+      <button onclick="login()">Войти</button>
+      <p id="login-error" class="error-message"></p>
+    </div>
+
+    <!-- Регистрация -->
+    <div id="register-screen" class="auth-screen">
+      <h1>Регистрация</h1>
+      <input type="text" id="register-username" placeholder="Новый ник" autocomplete="off" />
+      <input type="password" id="register-password" placeholder="Пароль" autocomplete="off" />
+      <input type="password" id="register-password-confirm" placeholder="Подтвердите пароль" autocomplete="off" />
+      <button onclick="register()">Зарегистрироваться</button>
+      <p id="register-error" class="error-message"></p>
+    </div>
+  </div>
+
+  <!-- Игровой экран -->
+  <div id="game-screen">
+    <div class="game-area">
+      <h1>Тун Тун Кликер</h1>
+      <p>Игрок: <span id="player-name"></span></p>
+      <button class="click-button" onclick="clickSuhuren()">Клик!</button>
+      <p class="currency">Гривны: <span id="grivnas">0</span></p>
+      <p class="currency">Доллары: <span id="dollars">0</span></p>
+    </div>
+
+    <div class="sidebar">
+      <h2>Меню</h2>
+      <a href="#" class="menu-link">🏪 Магазин</a>
+      <a href="#" class="menu-link">🎒 Инвентарь</a>
+      <a href="#" class="menu-link">🏆 Достижения</a>
+      <a href="#" class="menu-link">📜 Коллекция</a>
+      <a href="#" class="menu-link">⚙️ Настройки</a>
+
+      <button id="delete-account-btn" onclick="deleteAccount()">Удалить аккаунт</button>
+    </div>
+  </div>
+
+  <script src="js/base.js"></script>
+</body>
+</html>
