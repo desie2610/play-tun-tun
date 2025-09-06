@@ -2,10 +2,42 @@
   "use strict";
 
   const packs = [
-    { id: 1, name: "Мини-пак", costGrn: 50, rewardGrn: 120, rewardUsd: 0 },
-    { id: 2, name: "Средний пак", costGrn: 200, rewardGrn: 500, rewardUsd: 1 },
-    { id: 3, name: "Большой пак", costGrn: 500, rewardGrn: 1500, rewardUsd: 3 },
-    { id: 4, name: "Мега-пак", costGrn: 2000, rewardGrn: 7000, rewardUsd: 10 }
+    { 
+      id: 1, 
+      name: "Обычный пак", 
+      costGrn: 50, 
+      image: "../img/packs/common.png" 
+    },
+    { 
+      id: 2, 
+      name: "Редкий пак", 
+      costGrn: 150, 
+      image: "../img/packs/rare.png" 
+    },
+    { 
+      id: 3, 
+      name: "Сверх-редкий пак", 
+      costGrn: 400, 
+      image: "../img/packs/superrare.png" 
+    },
+    { 
+      id: 4, 
+      name: "Эпический пак", 
+      costGrn: 1000, 
+      image: "../img/packs/epic.png" 
+    },
+    { 
+      id: 5, 
+      name: "Мифический пак", 
+      costGrn: 2500, 
+      image: "../img/packs/mythic.png" 
+    },
+    { 
+      id: 6, 
+      name: "Легендарный пак", 
+      costGrn: 5000, 
+      image: "../img/packs/legendary.png" 
+    }
   ];
 
   function api(){
@@ -49,15 +81,12 @@
     // списываем гривны
     user.grivnas -= pack.costGrn;
 
-    // выдаем награду
-    user.grivnas += pack.rewardGrn;
-    user.dollars = (user.dollars || 0) + (pack.rewardUsd || 0);
-
     // сохраняем через API
     g.saveUsers();
     updateBalance();
-    // красивое уведомление
-    const msg = `Вы купили: ${pack.name}!\n+${pack.rewardGrn} ₴, +${pack.rewardUsd} $`;
+
+    // уведомление о покупке
+    const msg = `Вы купили: ${pack.name}!`;
     alert(msg);
   }
 
@@ -68,9 +97,9 @@
       const div = document.createElement("div");
       div.className = "pack";
       div.innerHTML = `
+        <img src="${pack.image}" alt="${pack.name}" class="pack-img">
         <h2>${pack.name}</h2>
         <p>Цена: ${pack.costGrn} ₴</p>
-        <p>Награда: +${pack.rewardGrn} ₴, +${pack.rewardUsd} $</p>
         <button>Купить</button>
       `;
       div.querySelector("button").addEventListener("click", ()=>buyPack(pack));
@@ -81,8 +110,6 @@
   document.addEventListener("DOMContentLoaded", ()=>{
     renderShop();
     updateBalance();
-
-    // Обновлять баланс, если вернулись из игры через ссылку
     window.addEventListener("focus", updateBalance);
   });
 
