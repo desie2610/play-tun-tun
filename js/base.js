@@ -186,6 +186,14 @@
 
   // --- Экспорт функций в глобальную область ---
   window.login = login;
+  // Экспорт API для внешних страниц (магазин и т.п.)
+window.gameAPI = {
+  getData: () => data,                   // возвращает объект всех пользователей (ссылка)
+  getCurrentUser: () => currentUser,    // возвращает текущего пользователя (строка или null)
+  saveUsers,                             // функция сохранения users в localStorage
+  loadUsers,                             // можно вызвать при необходимости
+  saveCurrentUser                         // сохранить currentUser в localStorage
+};
   window.register = register;
   window.deleteAccount = deleteAccount;
   window.clickSuhuren = clickSuhuren;

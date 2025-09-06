@@ -1,0 +1,126 @@
+/* Общие стили */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+  color: #f5d76e;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Шапка */
+header {
+  background: linear-gradient(90deg, #1a1a1a, #2a2a2a);
+  color: #f5d76e;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #f5d76e;
+  box-shadow: 0 0 15px rgba(245, 215, 110, 0.3);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.back-btn {
+  text-decoration: none;
+  color: #0a0a0a;
+  background: linear-gradient(45deg, #f5d76e, #ffd700);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(245, 215, 110, 0.6);
+}
+
+/* Контейнер магазина */
+#shop-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Карточки паков */
+.pack {
+  background: linear-gradient(135deg, #111, #222);
+  border: 1px solid #f5d76e;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #f5d76e;
+  box-shadow: 0 0 10px rgba(245, 215, 110, 0.3);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.pack:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 20px rgba(245, 215, 110, 0.6);
+}
+
+.pack h2 {
+  margin-top: 0;
+  color: #ffd700;
+}
+
+.pack p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+/* Кнопки */
+.pack button {
+  margin-top: 12px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #f5d76e, #ffd700);
+  color: #0a0a0a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pack button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(245, 215, 110, 0.8);
+}
+
+/* Подвал */
+footer {
+  background: #111;
+  text-align: center;
+  padding: 12px;
+  font-weight: bold;
+  border-top: 1px solid #f5d76e;
+  color: #f5d76e;
+  box-shadow: 0 -2px 10px rgba(245, 215, 110, 0.2);
+}
+
+.back-btn {
+  text-decoration: none;
+  color: #0a0a0a;
+  background: linear-gradient(45deg, #f5d76e, #ffd700, #f5d76e);
+  background-size: 200% 200%;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s, background-position 1s;
+  box-shadow: 0 0 10px rgba(245, 215, 110, 0.4);
+  display: inline-block;
+}
+
+.back-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 18px rgba(245, 215, 110, 0.8);
+  background-position: right center; /* эффект перелива */
+}
