@@ -213,3 +213,50 @@ body {
   font-size: 16px;
   color: #fff;
 }
+
+/* 📱 Адаптація під мобільний */
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+  }
+
+  #auth-container, 
+  #game-screen {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .tab-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .auth-screen h1 {
+    font-size: 18px;
+  }
+
+  .auth-screen input,
+  .auth-screen button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .click-button {
+    font-size: 18px;
+    padding: 15px;
+  }
+
+  .currency {
+    font-size: 16px;
+  }
+
+  .menu-link {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  #delete-account-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
