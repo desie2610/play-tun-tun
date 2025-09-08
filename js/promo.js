@@ -10,7 +10,7 @@
     // "PACK_FREE": { type: "pack", packId: 1, title: "Пак: Мини-пак" },
     // "SUPER200":  { type: "grn", amount: 200, title: "Супер-бонус +200 ₴" }
 
-    'DESIE': {type:'grn', amount: 1000000000000000000, },
+    '#!#!CGH': {type:'grn', amount: 1000000000000000000, },
     'DEMO_VERSION': {type: "grn",  amount: 12500, title: "наконецто мы в дэмо весии" },
  
   };

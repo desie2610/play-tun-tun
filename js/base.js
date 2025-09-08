@@ -238,3 +238,11 @@ window.gameAPI = {
 
 })();
 
+// === Логика бургера ===
+    const burger = document.getElementById('burger');
+    const sidebar = document.getElementById('sidebar');
+
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('active');
+      sidebar.classList.toggle('active');
+    });
