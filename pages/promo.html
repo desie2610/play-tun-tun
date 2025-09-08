@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Промокоды — Тун Тун Кликер</title>
+  <link rel="stylesheet" href="../css/promo.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Промокоды</h1>
+    <a class="back-btn" href="../index.html">🏠 Вернуться в игру</a>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Ввести промокод</h2>
+      <div class="row">
+        <input id="promo-input" type="text" placeholder="Введите промокод" autocomplete="off" />
+        <button id="apply-btn">Применить</button>
+      </div>
+      <p id="promo-msg" class="msg"></p>
+    </section>
+
+    <section class="card balance">
+      <h3>Баланс</h3>
+      <p>Гривны: <strong id="bal-grn">0</strong> ₴</p>
+      <p>Доллары: <strong id="bal-usd">0</strong> $</p>
+    </section>
+
+    <section class="card used">
+      <h3>Использованные коды</h3>
+      <ul id="used-list">
+        <li>— пока пусто —</li>
+      </ul>
+    </section>
+
+    
+  </main>
+
+  <footer class="footer">
+    <small>Промокоды одноразовые для каждого аккаунта.</small>
+  </footer>
+
+  <!-- Подключи base.js (путь поправь при необходимости) -->
+  <script src="../js/base.js"></script>
+  <script src="../js/promo.js"></script>
+</body>
+</html>

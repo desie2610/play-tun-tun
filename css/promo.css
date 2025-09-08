@@ -1,0 +1,117 @@
+:root{
+  --bg1: #080808;
+  --bg2: #141414;
+  --gold1: #f5d76e;
+  --gold2: #ffd700;
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg,#070707,#151515);
+  color: var(--gold1);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* header */
+.header{
+  width:100%;
+  max-width:980px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+  border-bottom:1px solid rgba(245,215,110,0.08);
+}
+.header h1{margin:0;font-size:1.4rem}
+.back-btn{
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:10px;
+  background: linear-gradient(45deg,var(--gold1),var(--gold2));
+  color:#0a0a0a;
+  font-weight:700;
+  box-shadow:0 6px 18px rgba(245,215,110,0.12);
+}
+
+/* main */
+.container{
+  width:100%;
+  max-width:980px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+  padding:26px 20px;
+}
+
+/* card */
+.card{
+  background: var(--card-bg);
+  border:1px solid rgba(245,215,110,0.08);
+  padding:18px;
+  border-radius:12px;
+  color:var(--gold1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+/* promo input row */
+.row{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+#promo-input{
+  flex:1;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.04);
+  background:rgba(255,255,255,0.02);
+  color:var(--gold1);
+  outline:none;
+}
+#promo-input::placeholder{color:rgba(245,215,110,0.45)}
+#apply-btn{
+  padding:10px 14px;
+  border-radius:8px;
+  border:none;
+  background: linear-gradient(45deg,var(--gold1),var(--gold2));
+  color:#0a0a0a;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* messages */
+.msg{
+  margin-top:12px;
+  min-height:20px;
+  color:#ffd;
+}
+.msg.success{ color: #a6f08a; } /* зелёный для успеха */
+.msg.error{ color: #ff8a8a; }  /* красный для ошибки */
+
+/* used list */
+.used ul, .info ul{ margin:8px 0 0 16px; padding:0; color: #f8e9b0;}
+.used li{ margin:6px 0; color:#e9d88a; }
+
+/* balance card */
+.balance p{ margin:6px 0; font-size:1.05rem; color:#fff; }
+.balance strong{ color:var(--gold2); }
+
+/* footer */
+.footer{
+  width:100%;
+  max-width:980px;
+  padding:12px 20px 40px;
+  color:rgba(245,215,110,0.6);
+}
+
+/* responsive small */
+@media (max-width:560px){
+  .header{padding:12px}
+  .container{padding:12px; gap:12px}
+}
