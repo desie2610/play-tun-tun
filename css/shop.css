@@ -8,7 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow-x: scroll;  /* включає горизонтальний скрол */
+  overflow-x: hidden; /* убрал горизонтальный скрол */
 }
 
 /* Шапка */
@@ -31,28 +31,29 @@ header h1 {
 .back-btn {
   text-decoration: none;
   color: #0a0a0a;
-  background: linear-gradient(45deg, #f5d76e, #ffd700);
-  padding: 8px 16px;
-  border-radius: 8px;
+  background: linear-gradient(45deg, #f5d76e, #ffd700, #f5d76e);
+  background-size: 200% 200%;
+  padding: 10px 18px;
+  border-radius: 10px;
   font-weight: bold;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s, background-position 1s;
+  box-shadow: 0 0 10px rgba(245, 215, 110, 0.4);
+  display: inline-block;
 }
 
 .back-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 12px rgba(245, 215, 110, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 0 18px rgba(245, 215, 110, 0.8);
+  background-position: right center;
 }
 
 /* Контейнер магазина */
 #shop-container {
   flex: 1;
-  /* display: grid; */
+  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
   padding: 20px;
-  display: flex;
-  flex-wrap: nowrap;
-  
 }
 
 /* Карточки паков */
@@ -80,6 +81,16 @@ header h1 {
 .pack p {
   margin: 8px 0;
   font-size: 0.95rem;
+}
+
+/* Картинки */
+.pack-img {
+  width: 175px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 8px rgba(245, 215, 110, 0.4);
 }
 
 /* Кнопки */
@@ -111,32 +122,70 @@ footer {
   box-shadow: 0 -2px 10px rgba(245, 215, 110, 0.2);
 }
 
-.back-btn {
-  text-decoration: none;
-  color: #0a0a0a;
-  background: linear-gradient(45deg, #f5d76e, #ffd700, #f5d76e);
-  background-size: 200% 200%;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-weight: bold;
-  transition: transform 0.3s, box-shadow 0.3s, background-position 1s;
-  box-shadow: 0 0 10px rgba(245, 215, 110, 0.4);
-  display: inline-block;
+/* 📱 Адаптив */
+@media (max-width: 1024px) {
+  #shop-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .pack-img {
+    width: 150px;
+    height: 220px;
+  }
 }
 
-.back-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 18px rgba(245, 215, 110, 0.8);
-  background-position: right center; /* эффект перелива */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
+
+  #shop-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .pack-img {
+    width: 140px;
+    height: 200px;
+  }
+
+  .pack h2 {
+    font-size: 1rem;
+  }
+
+  .pack p {
+    font-size: 0.85rem;
+  }
+
+  .pack button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
 }
 
-.pack-img {
-  width: 175px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  box-shadow: 0 0 8px rgba(245, 215, 110, 0.4);
+@media (max-width: 480px) {
+  #shop-container {
+    grid-template-columns: 1fr;
+  }
 
+  .pack-img {
+    width: 100%;
+    height: auto;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  footer {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 }
-
