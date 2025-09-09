@@ -1,248 +1,171 @@
-(function(){
-  "use strict";
+// js/base.js
 
-  function log(...args){ console.log("[base.js]", ...args); }
+// === Firebase Подключение ===
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  deleteUser, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  updateDoc, 
+  deleteDoc 
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  let data = {};            // объект всех пользователей
-  let currentUser = null;   // текущий пользователь
+// ⚠️ Замени на свои данные из Firebase console
+ const firebaseConfig = {
+  apiKey: "AIzaSyCbzlefIEUyLcf1bk308Xeaf2KA6ZuZCTI",
+  authDomain: "tun-tun-cliker.firebaseapp.com",
+  projectId: "tun-tun-cliker",
+  storageBucket: "tun-tun-cliker.firebasestorage.app",
+  messagingSenderId: "794569010",
+  appId:"1:794569010:web:1b8d2d6a1931aca8334f2b"
+}; 
 
-  // --- Работа с localStorage ---
-  function loadUsers(){
-    const raw = localStorage.getItem("users");
-    if (!raw) {
-      data = {};
-      log("Пользователей нет в localStorage");
-      return;
-    }
-    try {
-      data = JSON.parse(raw) || {};
-      log("Загружены пользователи:", Object.keys(data));
-    } catch (err) {
-      console.error("[base.js] Ошибка парсинга users:", err);
-      try {
-        if (confirm("Данные пользователей в localStorage повреждены. Сбросить их?")) {
-          localStorage.removeItem("users");
-          data = {};
-        } else {
-          data = {};
-        }
-      } catch(e){ data = {}; }
-    }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// === Элементы ===
+const authContainer = document.getElementById("auth-container");
+const gameScreen = document.getElementById("game-screen");
+const playerNameEl = document.getElementById("player-name");
+const grivnasEl = document.getElementById("grivnas");
+const dollarsEl = document.getElementById("dollars");
+
+// === Переключение вкладок (Вход/Регистрация) ===
+document.getElementById("login-tab-btn").addEventListener("click", () => {
+  document.getElementById("login-screen").classList.add("active");
+  document.getElementById("register-screen").classList.remove("active");
+});
+document.getElementById("register-tab-btn").addEventListener("click", () => {
+  document.getElementById("register-screen").classList.add("active");
+  document.getElementById("login-screen").classList.remove("active");
+});
+
+// === Регистрация ===
+async function register() {
+  const username = document.getElementById("register-username").value.trim();
+  const password = document.getElementById("register-password").value.trim();
+  const confirmPassword = document.getElementById("register-password-confirm").value.trim();
+  const errorEl = document.getElementById("register-error");
+
+  errorEl.textContent = "";
+
+  if (!username || !password || !confirmPassword) {
+    errorEl.textContent = "Заполните все поля!";
+    return;
+  }
+  if (password !== confirmPassword) {
+    errorEl.textContent = "Пароли не совпадают!";
+    return;
   }
 
-  function saveUsers(){
-    try {
-      localStorage.setItem("users", JSON.stringify(data));
-      log("Сохранены пользователи");
-    } catch (err){
-      console.error("[base.js] Не удалось сохранить users:", err);
-    }
-  }
+  try {
+    // ⚠️ Firebase требует email — делаем фейковый через ник
+    const email = `${username}@game.com`;
+    const userCred = await createUserWithEmailAndPassword(auth, email, password);
 
-  function saveCurrentUser(){
-    try {
-      if (currentUser) localStorage.setItem("currentUser", currentUser);
-      else localStorage.removeItem("currentUser");
-      log("Текущий пользователь сохранён:", currentUser);
-    } catch(err){
-      console.error("[base.js] Ошибка saveCurrentUser:", err);
-    }
-  }
-
-  // --- UI helpers ---
-  function clearAuthFields(){
-    const ids = ["login-username","login-password","register-username","register-password","register-password-confirm"];
-    ids.forEach(id=>{
-      const el = document.getElementById(id);
-      if (el) el.value = "";
+    // создаем запись в БД
+    await setDoc(doc(db, "players", userCred.user.uid), {
+      username: username,
+      grivnas: 0,
+      dollars: 0
     });
-    const le = document.getElementById("login-error");
-    const re = document.getElementById("register-error");
-    if (le) le.innerText = "";
-    if (re) re.innerText = "";
+
+    console.log("Пользователь зарегистрирован:", username);
+  } catch (err) {
+    errorEl.textContent = err.message;
+  }
+}
+
+// === Вход ===
+async function login() {
+  const username = document.getElementById("login-username").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+  const errorEl = document.getElementById("login-error");
+
+  errorEl.textContent = "";
+
+  if (!username || !password) {
+    errorEl.textContent = "Введите ник и пароль!";
+    return;
   }
 
-  function showAuthScreen(){
-    const auth = document.getElementById("auth-container");
-    const game = document.getElementById("game-screen");
-    if(auth) auth.style.display = "block";
-    if(game) game.style.display = "none";
-    clearAuthFields();
+  try {
+    const email = `${username}@game.com`;
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    errorEl.textContent = "Ошибка входа: " + err.message;
   }
+}
 
-  function startGame(){
-    if (!currentUser || !data[currentUser]) {
-      showAuthScreen();
-      return;
-    }
-    const auth = document.getElementById("auth-container");
-    const game = document.getElementById("game-screen");
-    if(auth) auth.style.display = "none";
-    if(game) game.style.display = "flex";
-    const playerEl = document.getElementById("player-name");
-    if (playerEl) playerEl.innerText = currentUser;
-    const g = document.getElementById("grivnas");
-    const d = document.getElementById("dollars");
-    if (g) g.innerText = data[currentUser].grivnas || 0;
-    if (d) d.innerText = data[currentUser].dollars || 0;
-    log("Игра запущена для", currentUser);
+// === Удалить аккаунт ===
+async function deleteAccount() {
+  if (!auth.currentUser) return;
+  try {
+    await deleteDoc(doc(db, "players", auth.currentUser.uid));
+    await deleteUser(auth.currentUser);
+    alert("Аккаунт удален!");
+  } catch (err) {
+    alert("Ошибка: " + err.message);
   }
+}
 
-  // --- Игровая логика ---
-  function clickSuhuren() {
-    if (!currentUser) {
-      alert("Сначала войдите или зарегистрируйтесь");
-      return;
-    }
+// === Кликер с шансом на доллар каждые 50 кликов ===
+async function clickSuhuren() {
+  if (!auth.currentUser) return;
+  const userRef = doc(db, "players", auth.currentUser.uid);
+  const snap = await getDoc(userRef);
 
-    // добавляем 1 гривну за клик
-    data[currentUser].grivnas = (data[currentUser].grivnas || 0) + 1;
+  if (snap.exists()) {
+    let data = snap.data();
 
-    // считаем общее количество кликов
-    data[currentUser].clicks = (data[currentUser].clicks || 0) + 1;
+    // Увеличиваем гривны
+    data.grivnas += 1;
 
-    // каждые 50 кликов 15% шанс выпадения 1 доллара
-    if (data[currentUser].clicks % 50 === 0) {
-      if (Math.random() < 0.15) { // 15% шанс
-        data[currentUser].dollars = (data[currentUser].dollars || 0) + 1;
-        alert("🎉 Выпал доллар!");
+    // Каждые 50 кликов шанс 50% получить доллар
+    if (data.grivnas % 50 === 0) {
+      if (Math.random() < 0.5) {
+        data.dollars += 1;
+        alert("Вам повезло! Вы получили 1 доллар!");
       }
     }
 
-    // обновляем отображение
-    const g = document.getElementById("grivnas");
-    const d = document.getElementById("dollars");
-    if (g) g.innerText = data[currentUser].grivnas;
-    if (d) d.innerText = data[currentUser].dollars;
-
-    // сохраняем изменения
-    saveUsers();
-    log("Клик — обновлён баланс:", data[currentUser]);
+    // Сохраняем обновленные данные
+    await updateDoc(userRef, { grivnas: data.grivnas, dollars: data.dollars });
+    grivnasEl.textContent = data.grivnas;
+    dollarsEl.textContent = data.dollars;
   }
+}
 
-  // --- Авторизация / регистрация ---
-  function login(){
-    const username = (document.getElementById("login-username").value || "").trim();
-    const password = document.getElementById("login-password").value || "";
-    const err = document.getElementById("login-error");
-    if (err) err.innerText = "";
-    if (!username || !password) {
-      if (err) err.innerText = "Заполните все поля!";
-      return;
+// === Авто-вход при загрузке страницы ===
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const snap = await getDoc(doc(db, "players", user.uid));
+    if (snap.exists()) {
+      const data = snap.data();
+      playerNameEl.textContent = data.username;
+      grivnasEl.textContent = data.grivnas;
+      dollarsEl.textContent = data.dollars;
     }
-    if (!data[username]) {
-      if (err) err.innerText = "Такого пользователя нет!";
-      return;
-    }
-    if (data[username].password !== password) {
-      if (err) err.innerText = "Неверный пароль!";
-      return;
-    }
-    currentUser = username;
-    saveCurrentUser();
-    startGame();
-    clearAuthFields();
+
+    authContainer.style.display = "none";
+    gameScreen.style.display = "block";
+  } else {
+    authContainer.style.display = "block";
+    gameScreen.style.display = "none";
   }
+});
 
-  function register(){
-    const username = (document.getElementById("register-username").value || "").trim();
-    const password = document.getElementById("register-password").value || "";
-    const confirmP = document.getElementById("register-password-confirm").value || "";
-    const err = document.getElementById("register-error");
-    if (err) err.innerText = "";
-    if (!username || !password || !confirmP) {
-      if (err) err.innerText = "Заполните все поля!";
-      return;
-    }
-    if (password.length < 4) {
-      if (err) err.innerText = "Пароль должен быть минимум 4 символа!";
-      return;
-    }
-    if (password !== confirmP) {
-      if (err) err.innerText = "Пароли не совпадают!";
-      return;
-    }
-    if (data[username]) {
-      if (err) err.innerText = "Пользователь уже существует!";
-      return;
-    }
-    data[username] = { password: password, grivnas: 0, dollars: 0, clicks: 0 };
-    saveUsers();
-    currentUser = username;
-    saveCurrentUser();
-    startGame();
-    clearAuthFields();
-  }
-
-  function deleteAccount(){
-    if (!currentUser) { alert("Нет текущего пользователя"); return; }
-    if (!confirm("Вы уверены, что хотите удалить аккаунт?")) return;
-    delete data[currentUser];
-    saveUsers();
-    currentUser = null;
-    saveCurrentUser();
-    showAuthScreen();
-  }
-
-  // --- Экспорт функций в глобальную область ---
-  window.login = login;
-  // Экспорт API для внешних страниц (магазин и т.п.)
-window.gameAPI = {
-  getData: () => data,                   // возвращает объект всех пользователей (ссылка)
-  getCurrentUser: () => currentUser,    // возвращает текущего пользователя (строка или null)
-  saveUsers,                             // функция сохранения users в localStorage
-  loadUsers,                             // можно вызвать при необходимости
-  saveCurrentUser                         // сохранить currentUser в localStorage
-};
-  window.register = register;
-  window.deleteAccount = deleteAccount;
-  window.clickSuhuren = clickSuhuren;
-
-  // --- Инициализация ---
-  document.addEventListener("DOMContentLoaded", ()=>{
-    log("DOMContentLoaded — инициализация");
-    loadUsers();
-    try {
-      const saved = localStorage.getItem("currentUser");
-      if (saved && data[saved]) {
-        currentUser = saved;
-        startGame();
-      } else {
-        showAuthScreen();
-      }
-    } catch(e) {
-      console.error("[base.js] Ошибка при загрузке currentUser:", e);
-      showAuthScreen();
-    }
-
-    // Вкладки
-    const loginTab = document.getElementById("login-tab-btn");
-    const registerTab = document.getElementById("register-tab-btn");
-    if (loginTab && registerTab) {
-      loginTab.addEventListener("click", ()=>{
-        document.getElementById("login-screen").classList.add("active");
-        document.getElementById("register-screen").classList.remove("active");
-        loginTab.classList.add("active");
-        registerTab.classList.remove("active");
-        clearAuthFields();
-      });
-      registerTab.addEventListener("click", ()=>{
-        document.getElementById("register-screen").classList.add("active");
-        document.getElementById("login-screen").classList.remove("active");
-        registerTab.classList.add("active");
-        loginTab.classList.remove("active");
-        clearAuthFields();
-      });
-    }
-  });
-
-})();
-
-// === Логика бургера ===
-    const burger = document.getElementById('burger');
-    const sidebar = document.getElementById('sidebar');
-
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('active');
-      sidebar.classList.toggle('active');
-    });
+// === Глобальные функции для кнопок ===
+window.register = register;
+window.login = login;
+window.clickSuhuren = clickSuhuren;
+window.deleteAccount = deleteAccount;
