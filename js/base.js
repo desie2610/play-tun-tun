@@ -23,7 +23,7 @@ import {
   apiKey: "AIzaSyCbzlefIEUyLcf1bk308Xeaf2KA6ZuZCTI",
   authDomain: "tun-tun-cliker.firebaseapp.com",
   projectId: "tun-tun-cliker",
-  storageBucket: "tun-tun-cliker.firebasestorage.app",
+  storageBucket: "tun-tun-cliker.appspot.com",
   messagingSenderId: "794569010",
   appId:"1:794569010:web:1b8d2d6a1931aca8334f2b"
 }; 

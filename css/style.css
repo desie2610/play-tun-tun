@@ -1,4 +1,4 @@
-/* Общие стили */
+/* === Общие стили === */
 body {
   margin: 0;
   height: 100vh;
@@ -16,10 +16,10 @@ a,
 input, 
 textarea {
   outline: none;
-  -webkit-tap-highlight-color: transparent; /* прибирає синю підсвітку на iOS/Android */
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Контейнер авторизации */
+/* === Контейнер авторизации === */
 #auth-container {
   background: rgba(0, 0, 0, 0.75);
   padding: 40px 30px;
@@ -30,7 +30,7 @@ textarea {
   color: #ffd700;
 }
 
-/* Вкладки */
+/* === Вкладки === */
 .tabs {
   display: flex;
   justify-content: center;
@@ -62,7 +62,7 @@ textarea {
   background: #333;
 }
 
-/* Экраны входа/регистрации */
+/* === Экраны входа/регистрации === */
 .auth-screen {
   display: none;
   flex-direction: column;
@@ -72,7 +72,7 @@ textarea {
   display: flex;
 }
 
-/* Поля ввода */
+/* === Поля ввода === */
 .auth-screen input {
   width: 100%;
   padding: 12px;
@@ -91,7 +91,7 @@ textarea {
   border: 2px solid #ffd700;
 }
 
-/* Кнопки */
+/* === Кнопки === */
 .auth-screen button {
   background: #ffd700;
   border: none;
@@ -110,7 +110,7 @@ textarea {
   transform: scale(1.05);
 }
 
-/* Ошибки */
+/* === Ошибки === */
 .error-message {
   color: #ff4444;
   font-size: 14px;
@@ -118,7 +118,7 @@ textarea {
   margin-top: 5px;
 }
 
-/* Игровой экран */
+/* === Игровой экран === */
 #game-screen {
   display: none;
   width: 700px;
@@ -129,6 +129,7 @@ textarea {
   color: #ffd700;
   font-family: 'Fredoka', sans-serif;
   display: flex;
+  flex-direction: row; /* контент + меню рядом */
   justify-content: space-between;
   padding: 30px;
   box-sizing: border-box;
@@ -176,6 +177,7 @@ textarea {
   text-shadow: 0 0 6px #ffd700;
 }
 
+/* === Боковое меню === */
 .sidebar {
   width: 220px;
   display: flex;
@@ -222,107 +224,103 @@ textarea {
   color: #fff;
 }
 
-/* 📱 Адаптація під мобільний */
+/* === Бургер меню === */
+.burger {
+  display: none;
+  width: 30px;
+  height: 22px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.burger span {
+  height: 4px;
+  background: #ffd700;
+  border-radius: 2px;
+  display: block;
+  transition: 0.3s;
+}
+
+.burger.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(9px);
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-9px);
+}
+
+/* === 📱 Мобильная версия === */
+@media (max-width: 768px) {
+  .burger {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  #game-screen {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* === Очень маленькие экраны === */
 @media (max-width: 600px) {
   body {
     align-items: flex-start;
   }
-
   #auth-container, 
   #game-screen {
     max-width: 100%;
     padding: 15px;
   }
-
   .tab-btn {
     font-size: 14px;
     padding: 10px;
   }
-
   .auth-screen h1 {
     font-size: 18px;
   }
-
   .auth-screen input,
   .auth-screen button {
     font-size: 14px;
     padding: 10px;
   }
-
   .click-button {
     font-size: 18px;
-    padding: 15px;
+    width: 120px;
+    height: 120px;
   }
-
   .currency {
     font-size: 16px;
   }
-
   .menu-link {
     font-size: 16px;
     padding: 10px;
   }
-
   #delete-account-btn {
     font-size: 14px;
     padding: 10px;
   }
 }
-
- /* === Бургер меню === */
-    .burger {
-      display: none;
-      width: 30px;
-      height: 22px;
-      flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-    .burger span {
-      height: 4px;
-      background: #ffd700;
-      border-radius: 2px;
-      display: block;
-      transition: 0.3s;
-    }
-
-    /* Коли відкрито */
-    .burger.active span:nth-child(1) {
-      transform: rotate(45deg) translateY(9px);
-    }
-    .burger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .burger.active span:nth-child(3) {
-      transform: rotate(-45deg) translateY(-9px);
-    }
-
-    /* Мобільне меню */
-    .sidebar {
-      transition: transform 0.3s ease;
-    }
-    @media (max-width: 768px) {
-      .burger {
-        display: flex;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 1001;
-      }
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        transform: translateX(-100%);
-        z-index: 1000;
-      }
-      .sidebar.active {
-        transform: translateX(0);
-      }
-      #game-screen {
-        flex-direction: column;
-        align-items: center;
-        padding-top: 60px;
-      }
-    }
